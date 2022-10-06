@@ -1,6 +1,11 @@
 export default (posts = [], action) => {
-    if(action.type === 'FETCH_ALL'){
-        return action.payload;
+    const type = action.type;
+    const payload = action.payload;
+
+    if(type === 'FETCH_ALL'){
+        return payload;
+    }else if(type === 'CREATE'){
+        return [...posts, payload]
     }
 
     return posts;
