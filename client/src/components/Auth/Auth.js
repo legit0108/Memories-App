@@ -6,13 +6,13 @@ import Input from './Input'
 
 const Auth = () => {
   const classes = useStyles();
-  const isSignup = false;
+  const [isSignup, setIsSignup] = useState(false); 
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
 
   const handleSubmit = () => {
-
+      
   }
 
   const handleChange = () => {
@@ -20,6 +20,8 @@ const Auth = () => {
   }
 
   const switchMode = () => {
+    setIsSignup((prevIsSignUp) => !prevIsSignUp);
+    setShowPassword(false);
   }
 
   return (
@@ -34,8 +36,8 @@ const Auth = () => {
                 {
                   isSignup && (
                     <>
-                      <Input name = "firstName" label="First Name" handleChange={handleChange} autofocus half/>
-                      <Input name = "firstName" label="First Name" handleChange={handleChange} half/>
+                      <Input name = "firstName" label="First Name" handleChange={handleChange} autoFocus half/>
+                      <Input name = "lastName" label="Last Name" handleChange={handleChange} half/>
                     </>
                   )
                 }
