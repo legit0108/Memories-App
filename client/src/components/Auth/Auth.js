@@ -3,11 +3,13 @@ import {TextField, Avatar, Button, Paper, Grid, Typography, Container} from '@ma
 import useStyles from './styles'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Input from './Input'
+import { useDispatch } from 'react-redux'
 
 const Auth = () => {
   const classes = useStyles();
   const [isSignup, setIsSignup] = useState(false); 
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch(); 
 
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
 
