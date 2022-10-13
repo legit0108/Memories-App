@@ -4,21 +4,34 @@ import useStyles from './styles'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Input from './Input'
 import { useDispatch } from 'react-redux'
+import {useHistory} from 'react-router-dom'
+import {signin, signup} from '../../actions/auth'
+
+const initialState = {firstName: '', lastName: '', email: '', password: '', confirmPassword: ''}
 
 const Auth = () => {
   const classes = useStyles();
   const [isSignup, setIsSignup] = useState(false); 
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch(); 
+  const history = useHistory();
+  const[formData, setFormData] = useState(initialState);
 
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
 
-  const handleSubmit = () => {
-      
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    
+    if(isSignup){
+      dispatch(signup(formData, history))
+    }else{
+      dispatch(signin(formData, history))
+    }
   }
 
-  const handleChange = () => {
-    
+  const handleChange = (event) => {
+    const target = event.target;
+    setFormData({...formData, [target.name] : target.value})
   }
 
   const switchMode = () => {
