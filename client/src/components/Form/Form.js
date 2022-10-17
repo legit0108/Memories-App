@@ -49,7 +49,7 @@ const Form = ({currentId, setCurrentId}) => {
             <Typography variant ="h6">{currentId ? 'Editing' : 'Creating'} a Memory</Typography>
             <TextField name="title" variant="outlined" label="Title" fullWidth value = {postData.title} onChange={(event) => setPostData({...postData, title: event.target.value})}/>
             <TextField name="message" variant="outlined" label="Message" fullWidth value = {postData.message} onChange={(event) => setPostData({...postData, message: event.target.value})}/>
-            <TextField name="tags" variant="outlined" label="Tags" fullWidth value = {postData.tags} onChange={(event) => setPostData({...postData, tags: event.target.value.split(",")})}/>
+            <TextField name="tags" variant="outlined" label="Tags (comma separated)" fullWidth value = {postData.tags} onChange={(event) => setPostData({...postData, tags: event.target.value.split(",")})}/>
             
             <div className={classes.fileInput}>
                <FileBase type="file" multiple={false} onDone={({base64}) => setPostData({...postData, selectedFile: base64})}/>
