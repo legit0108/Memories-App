@@ -3,7 +3,7 @@ import {Container, Grow, Grid, Paper, AppBar, TextField, Button} from '@material
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
 import {useDispatch} from 'react-redux';
-import {getPosts} from '../../actions/posts';
+import {getPosts, getPostsBySearch} from '../../actions/posts';
 import {useState, useEffect} from 'react';
 import Pagination from '../Pagination';
 import { mergeClasses } from '@material-ui/styles';
@@ -24,16 +24,31 @@ const Home = () => {
     const searchQuery = query.get('searchQuery');
     const classes = useStyles();
     const [search, setSearch] = useState('');
+    const [tags, setTags] = useState([])
 
     useEffect(() => {
        dispatch(getPosts());
     },[dispatch])
 
+    const searchPost = () => {
+      if(search.trim() || tags){
+        // dispatch -> fetch search post
+        dispatch(getPostsBySearch({search, tags: tags.join(',')})) // can't pass array so join and pass string
+        history.push(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`) // needed on client side for sharing purposes (share current URL to friends, colleagues etc)
+      }else{
+        history.push('/'); // searched for nothing, redirect back
+      } 
+    }
+
     const handleKeyPress = (event) => {
         if(event.keyCode === 13){
             // search for post, event.keyCode is 13 for enter key
+            searchPost();
         }
     }
+
+    const handleAdd = (tag) => setTags([...tags, tag]) 
+    const handleDelete = (tagToDelete) => setTags(tags.filter((tag) => tag!==tagToDelete)) 
 
     return(
         <Grow in>
@@ -52,6 +67,15 @@ const Home = () => {
                            fullWidth
                            value={search}
                            onChange={(event)=>setSearch(event.target.value)}/>    
+                           <ChipInput
+                             style={{margin: '10px 0'}}
+                             value={tags}
+                             onAdd={handleAdd}
+                             onDelete={handleDelete}
+                             label="Search Tags"
+                             variant="outlined"
+                           />  
+                           <Button onClick={searchPost} className={classes.searchButton} color="primary" variant="contained">Search</Button> 
                        </AppBar>
                         <Form currentId={currentId} setCurrentId={setCurrentId}/> 
                         <Paper elevation={6}> 
