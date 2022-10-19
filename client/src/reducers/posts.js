@@ -1,20 +1,30 @@
-import {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH} from '../constants/actionTypes';
+import {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH, START_LOADING, END_LOADING} from '../constants/actionTypes';
 
-export default (posts = [], action) => {
+export default (state = {isLoading: true, posts:[]}, action) => {
     const type = action.type;
     const payload = action.payload;
+    const data = payload?.data;
 
-    if(type === FETCH_ALL){
-        return payload;
+    if(type==START_LOADING){
+        return {...state, isLoading: true} 
+    }else if(type==END_LOADING){
+        return {...state, isLoading: false} 
+    }else if(type === FETCH_ALL){
+        return {
+            ...state,
+            posts: data,
+            currentPage: payload.currentPage,
+            numberOfPages: payload.numberOfPages
+        }
     }else if(type === CREATE){
-        return [...posts, payload]
+        return {...state, posts: [...state.posts, data]}
     }else if(type === UPDATE || type === LIKE){
-        return posts.map((post) => post._id === action.payload._id ? action.payload : post)
+        return {...state, posts: state.posts.map((post) => post._id === payload._id ? payload : post)}
     }else if(type === DELETE){
-        return posts.filter((post) => post._id !== action.payload)
+        return {...state, posts: state.posts.filter((post) => post._id !== payload)}
     }else if(type == FETCH_BY_SEARCH){
-        return action.payload
+        return {...state, posts: payload}
     }
 
-    return posts;
+    return state;
 }
