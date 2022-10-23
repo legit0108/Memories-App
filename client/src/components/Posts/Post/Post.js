@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import useStyles from './styles';
 import {Card, CardAction, CardContent, CardMedia, Button, Typography, CardActions, ButtonBase} from '@material-ui/core';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
@@ -15,12 +15,26 @@ const Post = ({post, setCurrentId}) => {
     const dispatch = useDispatch();
     const user = JSON.parse(localStorage.getItem('profile'));
     const history = useHistory();
+    const [likes, setLikes] = useState(post?.likes)
+
+    const userId = user?.result?.googleId || user?.result?._id;
+    const hasLikedPost =  likes.find((like)=> like===userId)
+
+    const handleLike = async() => {
+        dispatch(likePost(post._id)) 
+
+        if(hasLikedPost){
+           setLikes(likes.filter((id) => id!==userId)) // unlike post
+        }else{
+           setLikes([...likes, userId]) // like post
+        }
+    }
 
     const Likes  = () => {
-        const likeCount = post.likes.length;
+        const likeCount = likes.length;
 
         if(likeCount > 0){
-            return post.likes.find((like)=> like===(user?.result?.googleId || user?.result?._id))
+            return hasLikedPost
              ? (
                 <><ThumbUpAltIcon fontSize="small"/>&nbsp;{likeCount>2?`You and ${likeCount-1} others`:`${likeCount} like${likeCount>1?'s':''}`}</>
              ) : (
@@ -56,7 +70,7 @@ const Post = ({post, setCurrentId}) => {
             </CardContent>
         </ButtonBase>
             <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" disabled={!user?.result} onClick={()=>{dispatch(likePost(post._id))}}>
+                <Button size="small" color="primary" disabled={!user?.result} onClick={handleLike}>
                    <Likes/>
                 </Button> 
                 {((user?.result?.googleId || user?.result._id) === post?.creator) && 
