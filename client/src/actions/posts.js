@@ -45,7 +45,7 @@ export const createPost = (post, history) => async(dispatch) => {
         const{data} = await api.createPost(post);
         dispatch({type: CREATE, payload: data});
         history.push(`/posts/${data._id}`)
-        // dispatch({type: END_LOADING}); note: post undefined error turned to a feature XD
+        dispatch({type: END_LOADING});
     }catch(error){
         console.log(error);
     }

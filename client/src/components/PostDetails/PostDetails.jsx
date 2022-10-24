@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Paper, Typography, CircularProgress, Divider} from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
@@ -13,16 +13,26 @@ const PostDetails = () => {
   const history = useHistory();
   const classes = useStyles();
   const {id} = useParams();
-
+  const[recommendedPosts, setRecommendedPosts] = useState([])
+  
   useEffect(()=>{
     dispatch(getPost(id));
   },[id])
 
   useEffect(()=>{
-    if(post) dispatch(getPostsBySearch({search: 'none', tags: post?.tags.join(',')}))
+    if(post){
+        const fetch = async()=>{
+          await dispatch(getPostsBySearch({search: 'none', tags: post?.tags.join(',')}))
+        } 
+        
+        fetch()
+        setRecommendedPosts(posts.filter(({_id}) => _id !== post._id));
+    }
   }, [post])
 
-  if(!post) return null; // note that if defined below isLoading if statement, results in infinite loader (dispatch fails after 404)
+  if(!post) return null;
+
+  const openPost = (_id) => history.push(`/posts/${_id}`)
 
   if(isLoading){
     return (
@@ -31,10 +41,6 @@ const PostDetails = () => {
       </Paper>
     ) 
   }
-
-  const recommendedPosts = posts.filter(({_id}) => _id !== post._id)
-
-  const openPost = (_id) => history.push(`/posts/${_id}`)
 
   return (
    <Paper style={{padding: '20px', borderRadius: '15px'}} elevation={6}>
@@ -55,7 +61,7 @@ const PostDetails = () => {
           <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
         </div>
       </div>
-      {recommendedPosts.length && (
+      {recommendedPosts?.length ? (
         <div className={classes.section}>
           <Typography gutterBottom variant ="h5">You might also like: </Typography>
           <Divider/>
@@ -71,7 +77,7 @@ const PostDetails = () => {
             ))}
           </div>
         </div>
-      )}
+      ):""}
    </Paper>
   )
 }
