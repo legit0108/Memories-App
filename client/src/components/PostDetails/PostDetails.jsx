@@ -13,26 +13,18 @@ const PostDetails = () => {
   const history = useHistory();
   const classes = useStyles();
   const {id} = useParams();
-  const[recommendedPosts, setRecommendedPosts] = useState([])
-  
+
   useEffect(()=>{
     dispatch(getPost(id));
   },[id])
 
   useEffect(()=>{
-    if(post){
-        const fetch = async()=>{
-          await dispatch(getPostsBySearch({search: 'none', tags: post?.tags.join(',')}))
-        } 
-        
-        fetch()
-        setRecommendedPosts(posts.filter(({_id}) => _id !== post._id));
+    if(post){ 
+      dispatch(getPostsBySearch({search: 'none', tags: post?.tags.join(',')}))
     }
   }, [post])
 
   if(!post) return null;
-
-  const openPost = (_id) => history.push(`/posts/${_id}`)
 
   if(isLoading){
     return (
@@ -41,6 +33,10 @@ const PostDetails = () => {
       </Paper>
     ) 
   }
+
+  const recommendedPosts = posts.filter(({_id})=>_id!==post._id) 
+  
+  const openPost = (_id) => history.push(`/posts/${_id}`)
 
   return (
    <Paper style={{padding: '20px', borderRadius: '15px'}} elevation={6}>
