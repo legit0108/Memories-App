@@ -36,7 +36,7 @@ const Post = ({post, setCurrentId}) => {
         if(likeCount > 0){
             return hasLikedPost
              ? (
-                <><ThumbUpAltIcon fontSize="small"/>&nbsp;{likeCount>2?`You and ${likeCount-1} others`:`${likeCount} like${likeCount>1?'s':''}`}</>
+                <><ThumbUpAltIcon fontSize="small"/>&nbsp;{`${likeCount} like${likeCount>1?'s':''}`}</>
              ) : (
                 <><ThumbUpAltIconOutlined fontSize="small"/>&nbsp;{likeCount} {likeCount===1?'Like':'Likes'}`</> 
              )
@@ -47,8 +47,8 @@ const Post = ({post, setCurrentId}) => {
 
     return (
         <Card className={classes.card} raised elevation={6}>
-        <ButtonBase className={classes.cardAction} onClick={openPost}>
-            <CardMedia className ={classes.media} image = {post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title = {post.title}/>
+        <ButtonBase className={classes.cardAction}>
+            <CardMedia className ={classes.media} image = {post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title = {post.title} onClick={openPost}/>
             <div className={classes.overlay}>
                 <Typography variant="h6">{post.name}</Typography>
                 <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
