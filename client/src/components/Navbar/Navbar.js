@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import decode from 'jwt-decode';
 import memoriesLogo from '../../images/memoriesLogo.png'
 import memoriesText from '../../images/memoriesText.png'
+import {LOGOUT} from '../../constants/actionTypes.js'
 
 const Navbar = () => {
     const classes = useStyles();
@@ -17,7 +18,7 @@ const Navbar = () => {
     const location = useLocation(); 
 
     const logout = () => {
-       dispatch({type: 'LOGOUT'});
+       dispatch({type: LOGOUT});
        history.push('/')
        setUser(null);
     }
