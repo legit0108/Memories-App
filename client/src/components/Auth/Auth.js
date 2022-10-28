@@ -16,16 +16,22 @@ const Auth = () => {
   const dispatch = useDispatch(); 
   const history = useHistory();
   const[formData, setFormData] = useState(initialState);
+  const[statusCode, setStatusCode] = useState(null)
 
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
     
     if(isSignup){
-      dispatch(signup(formData, history))
+        dispatch(signup(formData, history))
     }else{
-      dispatch(signin(formData, history))
+        const error = await dispatch(signin(formData, history))
+
+        if(error){
+           const statusCode = error.response.status
+           setStatusCode(statusCode)
+        }
     }
   }
 
@@ -37,6 +43,32 @@ const Auth = () => {
   const switchMode = () => {
     setIsSignup((prevIsSignUp) => !prevIsSignUp);
     setShowPassword(false);
+  }
+
+  const handleForgotPassword = () => {
+    console.log("in handle forgot password")
+  }
+  
+  if(statusCode){
+    return (
+      <Container component="main" maxWidth="xs">
+         <Paper className={classes.paper} elevation ={3}>
+             <Avatar className={classes.avatar}>
+                 <LockOutlinedIcon/>
+             </Avatar>
+             <Typography variant="h5">{statusCode===404?'User not found' : 'Invalid password'}</Typography>
+             <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setStatusCode(null)}>
+                 {'Try again'}
+             </Button>
+             {
+              statusCode===400 && 
+              <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {handleForgotPassword}>
+              {'Forgot password?'}
+              </Button>
+             }
+         </Paper>
+      </Container>
+    )
   }
 
   return (

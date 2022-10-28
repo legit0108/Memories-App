@@ -38,7 +38,7 @@ const Post = ({post, setCurrentId}) => {
              ? (
                 <><ThumbUpAltIcon fontSize="small"/>&nbsp;{`${likeCount} like${likeCount>1?'s':''}`}</>
              ) : (
-                <><ThumbUpAltIconOutlined fontSize="small"/>&nbsp;{likeCount} {likeCount===1?'Like':'Likes'}`</> 
+                <><ThumbUpAltIconOutlined fontSize="small"/>&nbsp;{likeCount} {likeCount===1?'Like':'Likes'}</> 
              )
         }else return <><ThumbUpAltIconOutlined fontSize="small"/>&nbsp;Like</>
     }

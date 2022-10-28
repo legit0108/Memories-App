@@ -1,5 +1,5 @@
 import * as api from '../api';
-import {AUTH} from '../constants/actionTypes';
+import {AUTH, ERROR} from '../constants/actionTypes';
 
 export const signin = (formData, history) => async(dispatch)=>{
   try{
@@ -9,8 +9,8 @@ export const signin = (formData, history) => async(dispatch)=>{
 
      history.push('/')
   }catch(error){
-     console.log(error);
-  }
+     return error
+   }
 }
 
 export const signup = (formData, history) => async(dispatch)=>{
