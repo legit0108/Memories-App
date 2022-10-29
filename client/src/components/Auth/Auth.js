@@ -13,6 +13,7 @@ const Auth = () => {
   const classes = useStyles();
   const [isSignup, setIsSignup] = useState(false); 
   const [showPassword, setShowPassword] = useState(false);
+  const [forgetPassword, setForgetPassword] = useState(false);
   const dispatch = useDispatch(); 
   const history = useHistory();
   const[formData, setFormData] = useState(initialState);
@@ -36,6 +37,7 @@ const Auth = () => {
   }
 
   const handleChange = (event) => {
+    console.log("in handle change")
     const target = event.target;
     setFormData({...formData, [target.name] : target.value})
   }
@@ -45,10 +47,35 @@ const Auth = () => {
     setShowPassword(false);
   }
 
-  const handleForgotPassword = () => {
-    console.log("in handle forgot password")
+  const handleForgotPassword = (event) => {
+    event.preventDefault();
+    console.log("in handle forgot password", formData)
+
+
+    // set up mail sent succ state
   }
   
+  if(forgetPassword){
+    return (
+    <Container component="main" maxWidth="xs">
+       <Paper className={classes.paper} elevation ={3}>
+           <Avatar className={classes.avatar}>
+               <LockOutlinedIcon/>
+           </Avatar>
+           <Typography variant="h6" style={{textAlign:"center"}}>{'Please enter your email, a link will be sent to reset your password'}</Typography>
+           <form className={classes.form} onSubmit = {handleForgotPassword}>
+              <Grid container spacing = {2}>
+                <Input name="email" label="Email Address" handleChange={handleChange} type="email"/>
+              </Grid> 
+              <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                {'Submit'}
+              </Button>
+           </form>
+       </Paper>
+    </Container>
+    ) 
+  }
+
   if(statusCode){
     return (
       <Container component="main" maxWidth="xs">
@@ -56,13 +83,13 @@ const Auth = () => {
              <Avatar className={classes.avatar}>
                  <LockOutlinedIcon/>
              </Avatar>
-             <Typography variant="h5">{statusCode===404?'User not found' : 'Invalid password'}</Typography>
+             <Typography variant="h5">{statusCode===404?'User not found' : 'Incorrect password'}</Typography>
              <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setStatusCode(null)}>
                  {'Try again'}
              </Button>
              {
               statusCode===400 && 
-              <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {handleForgotPassword}>
+              <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setForgetPassword(true)}>
               {'Forgot password?'}
               </Button>
              }
