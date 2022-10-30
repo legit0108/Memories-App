@@ -45,6 +45,33 @@ export const signup = async(req, res) => {
    }
 }
 
-export const resetPassword = async(req, res)=>{
-   
+export const resetPassword = async(Req, res)=>{
+
+}
+
+export const forgotPassword = async(req, res)=>{
+   const{email} = req.body
+
+   try{
+      const existingUser = await User.findOne({email});
+
+      if(existingUser){
+         console.log(existingUser)
+
+         const email = existingUser.email
+         const password = existingUser.password
+         const id = existingUser._id
+
+         const secret = process.env.SECRET_KEY + password // unique for every user
+         const payload = {email, id}
+
+         const token = jwt.sign(payload, secret, {expiresIn: '15m'})
+         const link = `http://localhost:3000/reset-password/${id}/${token}`
+
+         return res.status(200).json({link, message: "User found"})
+      }
+      else return res.status(404).json({message: "User not found"})
+   }catch(error){
+      res.status(500).json({message: "Something went wrong"})
+   }
 }

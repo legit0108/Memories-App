@@ -6,6 +6,7 @@ import Input from './Input'
 import { useDispatch } from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import {signin, signup} from '../../actions/auth'
+import * as api from '../../api';
 
 const initialState = {firstName: '', lastName: '', email: '', password: '', confirmPassword: ''}
 
@@ -13,7 +14,8 @@ const Auth = () => {
   const classes = useStyles();
   const [isSignup, setIsSignup] = useState(false); 
   const [showPassword, setShowPassword] = useState(false);
-  const [forgetPassword, setForgetPassword] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
   const dispatch = useDispatch(); 
   const history = useHistory();
   const[formData, setFormData] = useState(initialState);
@@ -47,35 +49,18 @@ const Auth = () => {
     setShowPassword(false);
   }
 
-  const handleForgotPassword = (event) => {
+  const handleForgotPassword = async(event) => {
     event.preventDefault();
-    console.log("in handle forgot password", formData)
 
-
-    // set up mail sent succ state
+    try{
+      await api.forgotPassword(formData) // yaha se link ayega
+      setForgotPassword(false)
+      setSuccessMessage(true)
+    }catch(error){ 
+      setStatusCode(404)
+    }
   }
   
-  if(forgetPassword){
-    return (
-    <Container component="main" maxWidth="xs">
-       <Paper className={classes.paper} elevation ={3}>
-           <Avatar className={classes.avatar}>
-               <LockOutlinedIcon/>
-           </Avatar>
-           <Typography variant="h6" style={{textAlign:"center"}}>{'Please enter your email, a link will be sent to reset your password'}</Typography>
-           <form className={classes.form} onSubmit = {handleForgotPassword}>
-              <Grid container spacing = {2}>
-                <Input name="email" label="Email Address" handleChange={handleChange} type="email"/>
-              </Grid> 
-              <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                {'Submit'}
-              </Button>
-           </form>
-       </Paper>
-    </Container>
-    ) 
-  }
-
   if(statusCode){
     return (
       <Container component="main" maxWidth="xs">
@@ -89,13 +74,50 @@ const Auth = () => {
              </Button>
              {
               statusCode===400 && 
-              <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setForgetPassword(true)}>
+              <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>{setStatusCode(null); setForgotPassword(true)}}>
               {'Forgot password?'}
               </Button>
              }
          </Paper>
       </Container>
     )
+  }
+
+  if(forgotPassword){
+    return (
+    <Container component="main" maxWidth="xs">
+       <Paper className={classes.paper} elevation ={3}>
+           <Avatar className={classes.avatar}>
+               <LockOutlinedIcon/>
+           </Avatar>
+           <Typography variant="h6" style={{textAlign:"center"}}>{'Please enter your email address, a link will be sent to reset your password'}</Typography>
+           <form className={classes.form} onSubmit = {handleForgotPassword}>
+              <Grid container spacing = {2}>
+                <Input name="email" label="Email Address" handleChange={handleChange} type="email"/>
+              </Grid> 
+              <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                {'Submit'}
+              </Button>
+           </form>
+       </Paper>
+    </Container>
+    ) 
+  }
+  
+  if(successMessage){
+    return (
+      <Container component="main" maxWidth="xs">
+         <Paper className={classes.paper} elevation ={3}>
+             <Avatar className={classes.avatar}>
+                <LockOutlinedIcon/>
+             </Avatar>
+             <Typography variant="h6" style={{textAlign:"center"}}>{'A link has been sent to your email address to reset your password'}</Typography>
+             <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setSuccessMessage(false)}>
+                {'Okay'}
+             </Button>
+         </Paper>
+      </Container>
+    ) 
   }
 
   return (
