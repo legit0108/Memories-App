@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/signin', signin);
 router.post('/signup', signup);
-router.post('/resetPassword', resetPassword)
 router.post('/forgotPassword', forgotPassword)
+router.post('/resetPassword/:id/:token', resetPassword)
 
 export default router;

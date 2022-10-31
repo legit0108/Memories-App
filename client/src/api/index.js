@@ -21,4 +21,5 @@ export const comment = (value, id) => API.post(`/posts/${id}/commentPost`, {valu
 
 export const signIn = (formData) => API.post('/users/signin', formData);
 export const signUp = (formData) => API.post('/users/signup', formData);
-export const forgotPassword = (email) => API.post('/users/forgotPassword', email);
+export const forgotPassword = (formData) => API.post('/users/forgotPassword', formData);
+export const resetPassword = (formData, id, token) => API.post(`/users/resetPassword/${id}/${token}`);

@@ -53,7 +53,15 @@ const Auth = () => {
     event.preventDefault();
 
     try{
-      await api.forgotPassword(formData) // yaha se link ayega
+      const {data:{link}} = await api.forgotPassword(formData) // yaha se link ayega
+      
+      console.log(link)
+      // send link to user's mail via emailjs + change link when deploy app
+
+
+
+
+
       setForgotPassword(false)
       setSuccessMessage(true)
     }catch(error){ 
@@ -69,15 +77,15 @@ const Auth = () => {
                  <LockOutlinedIcon/>
              </Avatar>
              <Typography variant="h5">{statusCode===404?'User not found' : 'Incorrect password'}</Typography>
-             <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setStatusCode(null)}>
-                 {'Try again'}
-             </Button>
-             {
-              statusCode===400 && 
-              <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>{setStatusCode(null); setForgotPassword(true)}}>
-              {'Forgot password?'}
+              <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setStatusCode(null)}>
+                  {'Try again'}
               </Button>
-             }
+              {
+                statusCode===400 && 
+                <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>{setStatusCode(null); setForgotPassword(true)}}>
+                {'Forgot password?'}
+                </Button>
+              }
          </Paper>
       </Container>
     )
@@ -140,7 +148,7 @@ const Auth = () => {
 
                 <Input name="email" label="Email Address" handleChange={handleChange} type="email"/>
                 <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword}/>
-                {isSignup && <Input name ="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password"/>}
+                {isSignup && <Input name ="confirmPassword" label="Repeat Password" handleChange={handleChange} type={showPassword ? "text" : "password"}/>}
               </Grid> 
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                 {isSignup ? 'Sign up' : 'Sign In'}

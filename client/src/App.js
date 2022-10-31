@@ -6,6 +6,7 @@ import Home from "./components/Home/Home";
 import Auth from "./components/Auth/Auth";
 import PostDetails from "./components/PostDetails/PostDetails";
 import * as dotenv from 'dotenv'
+import ResetPassword from "./components/Auth/ResetPassword";
 
 
 dotenv.config()
@@ -23,6 +24,7 @@ const App = () => {
                         <Route path="/posts/search" exact component={Home}/>
                         <Route path = "/posts/:id" exact component={PostDetails}/>
                         <Route path="/auth" exact component={()=> (!user ? <Auth/> : <Redirect to="/posts"/>)}/>
+                        <Route path="/resetPassword/:id/:token" exact component = {ResetPassword}/>
                      </Switch>
                </Container>
          </BrowserRouter>

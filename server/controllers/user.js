@@ -45,8 +45,10 @@ export const signup = async(req, res) => {
    }
 }
 
-export const resetPassword = async(Req, res)=>{
-
+export const resetPassword = async(req, res)=>{
+   const{id, token} = req.params
+   console.log(id,"#",token) 
+   return res.status(200).json({message:"ok"})
 }
 
 export const forgotPassword = async(req, res)=>{
@@ -66,7 +68,7 @@ export const forgotPassword = async(req, res)=>{
          const payload = {email, id}
 
          const token = jwt.sign(payload, secret, {expiresIn: '15m'})
-         const link = `http://localhost:3000/reset-password/${id}/${token}`
+         const link = `http://localhost:3000/resetPassword/${id}/${token}`
 
          return res.status(200).json({link, message: "User found"})
       }
