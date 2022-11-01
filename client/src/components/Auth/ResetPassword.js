@@ -25,6 +25,8 @@ const ResetPassword = () => {
         const id = match.params.id
         const token = match.params.token
         await api.resetPassword(formData, id, token) // set up succ and failure states
+        // push to homepage (password has been reset succ, click ok)
+        // make sure invalid token state occurs for both one time and >15mins
     }
 
     return (

@@ -57,7 +57,7 @@ const Auth = () => {
       
       console.log(link)
       // send link to user's mail via emailjs + change link when deploy app
-
+      // mention in link -> one time (<15mins pe bhi one time) + only valid for 15 mins
 
 
 

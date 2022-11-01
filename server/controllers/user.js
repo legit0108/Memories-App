@@ -47,8 +47,37 @@ export const signup = async(req, res) => {
 
 export const resetPassword = async(req, res)=>{
    const{id, token} = req.params
-   console.log(id,"#",token) 
-   return res.status(200).json({message:"ok"})
+   const data = req.body
+   const email = data.email
+   const password = data.password
+   const confirmPassword = data.confirmPassword
+
+   const user = await User.findById(id)
+
+   if(!user){
+      return res.status(404).json({message:"User not found"})
+   }
+
+   if(email!==user.email){
+      return res.status(400).json({message: "Incorrect email"})
+   } 
+
+   if(password!==confirmPassword){
+      return res.status(400).json({message: "password and confirmPassword do not match"})
+   }
+
+   const secret = process.env.SECRET_KEY + user.password
+   
+   try{
+      const payload = jwt.verify(token, secret)
+
+      const hashedPassword = await bcrypt.hash(password, 12);
+      user.password = hashedPassword
+      await user.save()
+      return res.status(200).json({message:"Password updated"})
+   }catch(error){
+      return res.status(498).json({message: "Invalid token"})
+   }
 }
 
 export const forgotPassword = async(req, res)=>{
