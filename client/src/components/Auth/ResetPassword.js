@@ -11,6 +11,9 @@ const ResetPassword = () => {
     const classes = useStyles();
     const [formData, setFormData] = useState(initialState);
     const [showPassword, setShowPassword] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
+
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
     const match = useRouteMatch();
 
@@ -24,9 +27,48 @@ const ResetPassword = () => {
         event.preventDefault();
         const id = match.params.id
         const token = match.params.token
-        await api.resetPassword(formData, id, token) // set up succ and failure states
-        // push to homepage (password has been reset succ, click ok)
-        // make sure invalid token state occurs for both one time and >15mins
+        try{
+            const result = await api.resetPassword(formData, id, token)
+            const {message} = result.data
+
+            setSuccessMsg(message)
+        }catch(error){
+            const {message} = error.response.data
+            setErrorMsg(message)
+        }
+    }
+
+    if(successMsg){
+        return (
+            <Container component="main" maxWidth="xs">
+               <Paper className={classes.paper} elevation ={3}>
+                   <Avatar className={classes.avatar}>
+                       <LockOutlinedIcon/>
+                   </Avatar>
+                   <Typography variant="h5" style={{textAlign:"center"}}>{`${successMsg}`}</Typography>
+               </Paper>
+            </Container>
+        ) 
+    }
+
+    if(errorMsg){
+        return (
+            <Container component="main" maxWidth="xs">
+               <Paper className={classes.paper} elevation ={3}>
+                   <Avatar className={classes.avatar}>
+                       <LockOutlinedIcon/>
+                   </Avatar>
+                   <Typography variant="h5" style={{textAlign:"center"}}>{`${errorMsg}`}</Typography>
+                   {
+                    (errorMsg==='Incorrect email' || errorMsg==='Password and repeated password do not match')
+                    && 
+                    <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setErrorMsg('')}>
+                    {'Try again'}
+                    </Button>
+                   }
+               </Paper>
+            </Container>
+        )
     }
 
     return (
