@@ -53,15 +53,8 @@ const Auth = () => {
     event.preventDefault();
 
     try{
-      const {data:{link}} = await api.forgotPassword(formData) // yaha se link ayega
-      
-      console.log(link)
-      // send link to user's mail via emailjs + change link when deploy app
+      await api.forgotPassword(formData)
       // mention in link -> one time (<15mins pe bhi one time) + only valid for 15 mins
-
-
-
-
       setForgotPassword(false)
       setSuccessMessage(true)
     }catch(error){ 
