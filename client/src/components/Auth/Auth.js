@@ -20,6 +20,7 @@ const Auth = () => {
   const history = useHistory();
   const[formData, setFormData] = useState(initialState);
   const[statusCode, setStatusCode] = useState(null)
+  const[signupErrorMsg, setSignupErrorMsg] = useState('');
 
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
 
@@ -27,7 +28,8 @@ const Auth = () => {
     event.preventDefault();
     
     if(isSignup){
-        dispatch(signup(formData, history))
+        const error = await dispatch(signup(formData, history))
+        setSignupErrorMsg(error.response.data.message)
     }else{
         const error = await dispatch(signin(formData, history))
 
@@ -54,7 +56,7 @@ const Auth = () => {
 
     try{
       await api.forgotPassword(formData)
-      // mention in link -> one time (<15mins pe bhi one time) + only valid for 15 mins
+
       setForgotPassword(false)
       setSuccessMessage(true)
     }catch(error){ 
@@ -121,6 +123,22 @@ const Auth = () => {
     ) 
   }
 
+  if(signupErrorMsg){
+    return (
+      <Container component="main" maxWidth="xs">
+         <Paper className={classes.paper} elevation ={3}>
+             <Avatar className={classes.avatar}>
+                 <LockOutlinedIcon/>
+             </Avatar>
+             <Typography variant="h5">{signupErrorMsg}</Typography>
+              <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setSignupErrorMsg('')}>
+                  {'Try again'}
+              </Button>
+         </Paper>
+      </Container>
+    )
+  }
+
   return (
     <Container component="main" maxWidth="xs">
        <Paper className={classes.paper} elevation ={3}>
@@ -133,7 +151,7 @@ const Auth = () => {
                 {
                   isSignup && (
                     <>
-                      <Input name = "firstName" label="First Name" handleChange={handleChange} autoFocus half/>
+                      <Input name = "firstName" label="First Name" handleChange={handleChange} half/>
                       <Input name = "lastName" label="Last Name" handleChange={handleChange} half/>
                     </>
                   )

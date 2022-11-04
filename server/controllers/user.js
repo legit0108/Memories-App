@@ -17,9 +17,9 @@ export const signin = async(req, res) => {
 
        const token = jwt.sign({email: existingUser.email, id: existingUser._id}, process.env.SECRET_KEY, {expiresIn: "1h"});
 
-       res.status(200).json({result: existingUser, token});
+       return res.status(200).json({result: existingUser, token});
    }catch(error){
-       res.status(500).json({message: "Something went wrong"})
+       return res.status(500).json({message: "Something went wrong"})
    }
 }
 
@@ -40,9 +40,9 @@ export const signup = async(req, res) => {
       const token = jwt.sign({email: result.email, id: result._id}, process.env.SECRET_KEY, {expiresIn: "1h"});
 
       sendMail("signup", result.name, result.email)
-      res.status(200).json({result, token});
+      return res.status(200).json({result, token});
    }catch(error){
-      res.status(500).json({message: "Something went wrong"})
+      return res.status(500).json({message: "Something went wrong"})
    }
 }
 

@@ -48,10 +48,7 @@ const PostDetails = () => {
           <Typography variant="h6">Created by: {post.name}</Typography>
           <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
           <Divider style={{ margin: '20px 0' }} />
-          <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
-          <Divider style={{ margin: '20px 0' }} />
-            <CommentSection post={post}/>
-          <Divider style={{ margin: '20px 0' }} />
+          <CommentSection post={post}/>
         </div>
         <div className={classes.imageSection}>
           <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
@@ -59,8 +56,8 @@ const PostDetails = () => {
       </div>
       {recommendedPosts?.length ? (
         <div className={classes.section}>
-          <Typography gutterBottom variant ="h5">You might also like: </Typography>
           <Divider/>
+          <Typography style = {{marginTop: '1rem'}} variant ="h5">You might also like: </Typography>
           <div className={classes.recommendedPosts}>
             {recommendedPosts.map(({title, message, name, likes, selectedFile, _id})=>(
               <div style={{margin: '20px', cursor: "pointer"}} onClick={() => openPost(_id)} key = {_id}>
