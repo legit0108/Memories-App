@@ -1,5 +1,5 @@
 import React from 'react'
-import {Container, Grow, Grid, Paper, AppBar, TextField, Button} from '@material-ui/core';
+import {Container, Grow, Grid, AppBar, TextField, Button, Avatar, Paper, Typography, CircularProgress} from '@material-ui/core';
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
 import {useDispatch} from 'react-redux';
@@ -10,6 +10,7 @@ import { mergeClasses } from '@material-ui/styles';
 import { useHistory, useLocation } from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input';
 import useStyles from './styles';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
 function useQuery(){
     return new URLSearchParams(useLocation().search)       
@@ -25,6 +26,7 @@ const Home = () => {
     const classes = useStyles();
     const [search, setSearch] = useState('');
     const [tags, setTags] = useState([])
+    const [redirect, setRedirect] = useState(query.get("redirect"))
 
     const searchPost = () => {
       if(search.trim() || tags){
@@ -45,6 +47,22 @@ const Home = () => {
 
     const handleAdd = (tag) => setTags([...tags, tag]) 
     const handleDelete = (tagToDelete) => setTags(tags.filter((tag) => tag!==tagToDelete)) 
+
+    if(redirect){
+      return (
+          <Container component="main" maxWidth="xs">
+             <Paper className={classes.paper} elevation ={3}>
+                 <Avatar className={classes.avatar}>
+                     <LockOutlinedIcon/>
+                 </Avatar>
+                 <Typography variant="h5">{'You are already logged in'}</Typography>
+                  <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setRedirect(false)}>
+                      {'Okay'}
+                  </Button>
+             </Paper>
+          </Container>
+        )
+    }
 
     return(
         <Grow in>
