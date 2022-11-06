@@ -5,6 +5,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Input from './Input'
 import * as api from '../../api';
 import { useRouteMatch } from "react-router-dom";
+import Dialogbox from '../../utility/Dialogbox'
+import { useHistory } from 'react-router-dom'
 
 const ResetPassword = () => {
     const initialState = {email: '', password: '', confirmPassword: ''}
@@ -13,6 +15,7 @@ const ResetPassword = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
+    const history = useHistory();
 
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
     const match = useRouteMatch();
@@ -40,14 +43,7 @@ const ResetPassword = () => {
 
     if(successMsg){
         return (
-            <Container component="main" maxWidth="xs">
-               <Paper className={classes.paper} elevation ={3}>
-                   <Avatar className={classes.avatar}>
-                       <LockOutlinedIcon/>
-                   </Avatar>
-                   <Typography variant="h5" style={{textAlign:"center"}}>{`${successMsg}`}</Typography>
-               </Paper>
-            </Container>
+            <Dialogbox textMessage={successMsg} buttonMessage={'Okay'} onClick={()=>history.push('/auth')}/>
         ) 
     }
 

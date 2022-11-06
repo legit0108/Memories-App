@@ -7,6 +7,7 @@ import {Grid, CircularProgress, Paper, Typography, Container, Button, Avatar} fr
 import {useLocation} from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {useHistory} from 'react-router-dom';
+import Dialogbox from '../../utility/Dialogbox';
 
 function useQuery(){
     return new URLSearchParams(useLocation().search)       
@@ -22,17 +23,7 @@ const Posts = ({setCurrentId}) => {
 
     if(!posts.length && !isLoading){
         return (
-            <Container component="main" maxWidth="xs">
-               <Paper className={classes.paper} elevation ={3}>
-                   <Avatar className={classes.avatar}>
-                       <LockOutlinedIcon/>
-                   </Avatar>
-                   <Typography variant="h5">{'No posts found'}</Typography>
-                    <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>history.push('/')}>
-                        {'Okay'}
-                    </Button>
-               </Paper>
-            </Container>
+            <Dialogbox textMessage={'No posts found'} buttonMessage={'Okay'} onClick={()=>history.push('/')}/>
         )
     }
 

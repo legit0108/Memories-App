@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import {signin, signup} from '../../actions/auth'
 import * as api from '../../api';
+import Dialogbox from '../../utility/Dialogbox'
 
 const initialState = {firstName: '', lastName: '', email: '', password: '', confirmPassword: ''}
 
@@ -109,33 +110,13 @@ const Auth = () => {
   
   if(successMessage){
     return (
-      <Container component="main" maxWidth="xs">
-         <Paper className={classes.paper} elevation ={3}>
-             <Avatar className={classes.avatar}>
-                <LockOutlinedIcon/>
-             </Avatar>
-             <Typography variant="h6" style={{textAlign:"center"}}>{'A link has been sent to your email address to reset your password'}</Typography>
-             <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setSuccessMessage(false)}>
-                {'Okay'}
-             </Button>
-         </Paper>
-      </Container>
+      <Dialogbox textMessage={'A link has been sent to your email address to reset your password'} buttonMessage={'Okay'} onClick={()=>setSuccessMessage(false)} variant="h6"/>
     ) 
   }
 
   if(signupErrorMsg){
     return (
-      <Container component="main" maxWidth="xs">
-         <Paper className={classes.paper} elevation ={3}>
-             <Avatar className={classes.avatar}>
-                 <LockOutlinedIcon/>
-             </Avatar>
-             <Typography variant="h5">{signupErrorMsg}</Typography>
-              <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setSignupErrorMsg('')}>
-                  {'Try again'}
-              </Button>
-         </Paper>
-      </Container>
+      <Dialogbox textMessage = {signupErrorMsg} buttonMessage = {'Try again'} onClick = {()=>setSignupErrorMsg('')}/ >
     )
   }
 

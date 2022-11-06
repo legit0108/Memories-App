@@ -6,6 +6,7 @@ import {useParams, useHistory} from 'react-router-dom';
 import useStyles from './styles';
 import {getPost, getPostsBySearch} from '../../actions/posts';
 import CommentSection from './CommentSection';
+import Dialogbox from '../../utility/Dialogbox';
 
 const PostDetails = () => {
   const {post, posts, isLoading} = useSelector((state)=>state.posts);
@@ -24,7 +25,11 @@ const PostDetails = () => {
     }
   }, [post])
 
-  if(!post) return null;
+  if(!post){
+    return(
+      <Dialogbox textMessage={'Post not found'} buttonMessage={'Okay'} onClick={()=>history.push('/posts')}/>
+    )
+  }
 
   if(isLoading){
     return (

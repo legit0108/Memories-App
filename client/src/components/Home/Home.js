@@ -11,6 +11,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input';
 import useStyles from './styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import Dialogbox from '../../utility/Dialogbox';
 
 function useQuery(){
     return new URLSearchParams(useLocation().search)       
@@ -50,18 +51,8 @@ const Home = () => {
 
     if(redirect){
       return (
-          <Container component="main" maxWidth="xs">
-             <Paper className={classes.paper} elevation ={3}>
-                 <Avatar className={classes.avatar}>
-                     <LockOutlinedIcon/>
-                 </Avatar>
-                 <Typography variant="h5">{'You are already logged in'}</Typography>
-                  <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setRedirect(false)}>
-                      {'Okay'}
-                  </Button>
-             </Paper>
-          </Container>
-        )
+        <Dialogbox textMessage={'You are already logged in'} buttonMessage={'Okay'} onClick = {()=>setRedirect(false)}/>
+      )
     }
 
     return(
