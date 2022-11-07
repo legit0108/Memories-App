@@ -1,6 +1,6 @@
 import {AUTH, LOGOUT} from '../constants/actionTypes';
 
-const authReducer = (state= {authData: null},action) => {
+const authReducer = (state = {authData: null}, action) => {
     const type = action.type;
     const payload = action.payload;
 

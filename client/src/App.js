@@ -8,7 +8,6 @@ import PostDetails from "./components/PostDetails/PostDetails";
 import * as dotenv from 'dotenv'
 import ResetPassword from "./components/Auth/ResetPassword";
 
-
 dotenv.config()
 
 const App = () => {
@@ -18,6 +17,7 @@ const App = () => {
          <BrowserRouter>
                <Container maxwidth="xl">
                      <Navbar/>
+                     
                      <Switch>
                         <Route path="/" exact component={() => <Redirect to="/posts"/>}/>
                         <Route path="/posts" exact component={Home}/>

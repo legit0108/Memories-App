@@ -18,8 +18,6 @@ const Posts = ({setCurrentId}) => {
     const classes = useStyles();
     const query = useQuery();
     const history = useHistory();
-    
-    console.log(posts);
 
     if(!posts.length && !isLoading){
         return (

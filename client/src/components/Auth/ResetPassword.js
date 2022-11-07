@@ -16,12 +16,10 @@ const ResetPassword = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
     const history = useHistory();
-
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
     const match = useRouteMatch();
 
     const handleChange = (event) => {
-        console.log("in handle change")
         const target = event.target;
         setFormData({...formData, [target.name] : target.value})
     }
@@ -30,10 +28,10 @@ const ResetPassword = () => {
         event.preventDefault();
         const id = match.params.id
         const token = match.params.token
+
         try{
             const result = await api.resetPassword(formData, id, token)
             const {message} = result.data
-
             setSuccessMsg(message)
         }catch(error){
             const {message} = error.response.data
@@ -54,7 +52,9 @@ const ResetPassword = () => {
                    <Avatar className={classes.avatar}>
                        <LockOutlinedIcon/>
                    </Avatar>
+
                    <Typography variant="h5" style={{textAlign:"center"}}>{`${errorMsg}`}</Typography>
+                   
                    {
                     (errorMsg==='Incorrect email' || errorMsg==='Password and repeated password do not match')
                     && 
@@ -73,13 +73,16 @@ const ResetPassword = () => {
                <Avatar className={classes.avatar}>
                    <LockOutlinedIcon/>
                </Avatar>
+
                <Typography variant="h5" style={{textAlign:"center"}}>{'Reset password'}</Typography>
+               
                <form className={classes.form} onSubmit = {handleResetPassword}>
                   <Grid container spacing = {2}>
                      <Input name="email" label="Email Address" handleChange={handleChange} type="email"/>
                      <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword}/>
                      <Input name ="confirmPassword" label="Repeat Password" handleChange={handleChange} type={showPassword ? "text" : "password"}/>
                   </Grid> 
+                  
                   <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                     {'Submit'}
                   </Button>

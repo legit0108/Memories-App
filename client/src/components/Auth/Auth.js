@@ -57,7 +57,6 @@ const Auth = () => {
 
     try{
       await api.forgotPassword(formData)
-
       setForgotPassword(false)
       setSuccessMessage(true)
     }catch(error){ 
@@ -72,10 +71,13 @@ const Auth = () => {
              <Avatar className={classes.avatar}>
                  <LockOutlinedIcon/>
              </Avatar>
+
              <Typography variant="h5">{statusCode===404?'User not found' : 'Incorrect password'}</Typography>
+             
               <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>setStatusCode(null)}>
                   {'Try again'}
               </Button>
+             
               {
                 statusCode===400 && 
                 <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {()=>{setStatusCode(null); setForgotPassword(true)}}>
@@ -94,11 +96,14 @@ const Auth = () => {
            <Avatar className={classes.avatar}>
                <LockOutlinedIcon/>
            </Avatar>
+
            <Typography variant="h6" style={{textAlign:"center"}}>{'Please enter your email address, a link will be sent to reset your password'}</Typography>
+           
            <form className={classes.form} onSubmit = {handleForgotPassword}>
               <Grid container spacing = {2}>
                 <Input name="email" label="Email Address" handleChange={handleChange} type="email"/>
               </Grid> 
+
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                 {'Submit'}
               </Button>
@@ -126,7 +131,9 @@ const Auth = () => {
            <Avatar className={classes.avatar}>
                <LockOutlinedIcon/>
            </Avatar>
+
            <Typography variant="h5">{isSignup ? 'Sign Up' : 'Sign In'}</Typography>
+           
            <form className={classes.form} onSubmit = {handleSubmit}>
               <Grid container spacing = {2}>
                 {
@@ -137,14 +144,15 @@ const Auth = () => {
                     </>
                   )
                 }
-
                 <Input name="email" label="Email Address" handleChange={handleChange} type="email"/>
                 <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword}/>
                 {isSignup && <Input name ="confirmPassword" label="Repeat Password" handleChange={handleChange} type={showPassword ? "text" : "password"}/>}
               </Grid> 
+
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                 {isSignup ? 'Sign up' : 'Sign In'}
               </Button>
+              
               <Grid container justify="flex-end">
                    <Grid item>
                        <Button onClick={switchMode}>

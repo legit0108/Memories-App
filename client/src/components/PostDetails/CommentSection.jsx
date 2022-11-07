@@ -1,7 +1,6 @@
 import React, {useState, useRef} from 'react';
 import {Typography, TextField, Button} from '@material-ui/core';
 import {useDispatch} from 'react-redux';
-
 import useStyles from './styles';
 import {commentPost} from '../../actions/posts'
 
@@ -41,9 +40,11 @@ const CommentSection = ({post}) => {
                     })}
                     <div ref={commentsRef}></div> {/*scroll to this specific div since its at the end of messages (auto scroll down when adding new message)*/}
                 </div>
+
                 {user && (
                     <div style={{width: '70%'}}>
                         <Typography gutterBottom variant="h6">Write a Comment</Typography> 
+
                         <TextField
                         fullWidth
                         rows={4}
@@ -53,6 +54,7 @@ const CommentSection = ({post}) => {
                         value={comment}
                         onChange={(event) => setComment(event.target.value)}
                         />
+                        
                         <Button style={{marginTop: '10px'}} fullWidth disabled={!comment} variant="contained" color="primary" onClick={handleClick}>
                         Comment
                         </Button>

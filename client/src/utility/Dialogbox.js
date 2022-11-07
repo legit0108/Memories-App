@@ -5,17 +5,19 @@ import useStyles from './styles'
 
 const Dialogbox = ({textMessage, buttonMessage, onClick, variant="h5"}) => {
     const classes = useStyles();
-    console.log("in dialog box")
+    
     return (
         <Container component="main" maxWidth="xs">
            <Paper className={classes.paper} elevation ={3}>
                <Avatar className={classes.avatar}>
                    <LockOutlinedIcon/>
                </Avatar>
+
                <Typography variant={variant} style={{textAlign:"center"}}>{textMessage}</Typography>
-                <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {onClick}>
+               
+               <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick = {onClick}>
                     {buttonMessage}
-                </Button>
+               </Button>
            </Paper>
         </Container>
     )

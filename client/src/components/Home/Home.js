@@ -32,6 +32,7 @@ const Home = () => {
     const searchPost = () => {
       if(search.trim() || tags){
         // dispatch -> fetch search post
+
         dispatch(getPostsBySearch({search, tags: tags.join(',')})) // can't pass array so join and pass string
         history.push(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`) // needed on client side for sharing purposes (share current URL to friends, colleagues etc)
       }else{
@@ -62,6 +63,7 @@ const Home = () => {
                     <Grid item xs={12} sm={6} md={9}>
                         <Posts setCurrentId={setCurrentId}/>
                     </Grid>
+
                     <Grid item xs={12} sm={6} md={3}>
                        <AppBar className={classes.appBarSearch} position="static" color="inherit">
                          <TextField 
@@ -82,6 +84,7 @@ const Home = () => {
                            />  
                            <Button onClick={searchPost} className={classes.searchButton} color="primary" variant="contained">Search</Button> 
                        </AppBar>
+                       
                         <Form currentId={currentId} setCurrentId={setCurrentId}/> 
                         {(!searchQuery && !tags.length) && (
                            <Paper elevation={6} className={classes.pagination}> 

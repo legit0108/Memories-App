@@ -14,16 +14,19 @@ export default makeStyles((theme) => ({
       flexDirection: 'column',
     },
   },
+
   heading: {
     color: theme.palette.primary.main,
     textDecoration: 'none',
     fontSize: '2em',
     fontWeight: 300,
   },
+
   image: {
     marginLeft: '10px',
     marginTop: '5px',
   },
+
   toolbar: {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -32,6 +35,7 @@ export default makeStyles((theme) => ({
       width: 'auto',
     },
   },
+
   profile: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -43,18 +47,22 @@ export default makeStyles((theme) => ({
       justifyContent: 'center',
     },
   },
+
   logout: {
     marginLeft: '20px',
   },
+
   userName: {
     display: 'flex',
     alignItems: 'center',
     textAlign: 'center',
   },
+
   brandContainer: {
     display: 'flex',
     alignItems: 'center',
   },
+  
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
