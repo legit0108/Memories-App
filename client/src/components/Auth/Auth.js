@@ -42,7 +42,6 @@ const Auth = () => {
   }
 
   const handleChange = (event) => {
-    console.log("in handle change")
     const target = event.target;
     setFormData({...formData, [target.name] : target.value})
   }
@@ -150,7 +149,7 @@ const Auth = () => {
               </Grid> 
 
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                {isSignup ? 'Sign up' : 'Sign In'}
+                {isSignup ? 'Sign Up' : 'Sign In'}
               </Button>
               
               <Grid container justify="flex-end">

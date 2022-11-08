@@ -74,7 +74,7 @@ const ResetPassword = () => {
                    <LockOutlinedIcon/>
                </Avatar>
 
-               <Typography variant="h5" style={{textAlign:"center"}}>{'Reset password'}</Typography>
+               <Typography variant="h5" style={{textAlign:"center"}}>{'Reset Password'}</Typography>
                
                <form className={classes.form} onSubmit = {handleResetPassword}>
                   <Grid container spacing = {2}>

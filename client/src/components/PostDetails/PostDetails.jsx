@@ -14,6 +14,7 @@ const PostDetails = () => {
   const history = useHistory();
   const classes = useStyles();
   const {id} = useParams();
+  const defaultLink = 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'
 
   useEffect(()=>{
     dispatch(getPost(id));
@@ -59,7 +60,7 @@ const PostDetails = () => {
         </div>
 
         <div className={classes.imageSection}>
-          <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
+          <img className={classes.media} src={post.selectedFile || defaultLink} alt={post.title} />
         </div>
 
       </div>
@@ -77,7 +78,7 @@ const PostDetails = () => {
                 <Typography gutterBottom variant="subtitle2">{message}</Typography>
                 <Typography gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
                 
-                <img className={classes.media} src={selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={title} style ={{width: "200px"}}/>
+                <img className={classes.media} src={selectedFile || defaultLink} alt={title} style ={{width: "200px"}}/>
               </div>
             ))}
           </div>
