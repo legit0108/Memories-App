@@ -32,6 +32,4 @@ export const sendMail = async(str, userName, email, link="")=>{
         subject,
         html
     })
-
-    console.log(info.messageId)
 }

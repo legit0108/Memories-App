@@ -1,5 +1,4 @@
 import express from 'express';
-
 import {signin, signup, resetPassword, forgotPassword} from '../controllers/user.js'
 
 const router = express.Router();

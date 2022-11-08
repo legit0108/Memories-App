@@ -33,6 +33,7 @@ export const getPostsBySearch = async(req, res) => {
     
     try{
        // convert searchQuery to regular expression so that it is easier for mongoDB and mongoose to search DB
+
        const title = new RegExp(searchQuery, 'i'); // i -> ignore case -> Test=TEST=test  
 
        const posts = await PostMessage.find({ $or: [{title}, {tags: {$in: tags.split(',')}}]})
@@ -58,6 +59,7 @@ export const createPost = async (req, res)=>{
 export const updatePost = async(req, res) => {
     const {id: _id} = req.params;
     const post = req.body;
+    
     if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that id');
 
     const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {new:true});
