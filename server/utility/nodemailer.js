@@ -1,3 +1,5 @@
+import sendgridMail from '@sendgrid/mail'
+
 import nodemailer from 'nodemailer'
 
 export const sendMail = async(str, userName, email, link="")=>{
